@@ -7,7 +7,6 @@ interface Props {}
 const Posts: React.FunctionComponent<Props> = () => {
   const {navigate} = useNavigation();
   const onPressUser = useCallback(
-    const onPressUser = useCallback(
     (username = '123') => {
       navigate('User', {username: 'name12'});
     },
