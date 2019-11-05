@@ -4,14 +4,14 @@ import { useNavigationParam } from 'react-navigation-hooks';
 
 interface Props {}
 
-const User: React.FunctionComponent<Props> = () => {
-  const username = useNavigationParam<string>('username');
+const Mission: React.FunctionComponent<Props> = () => {
+  const tweetId = useNavigationParam('id');
 
   return (
     <View style={{flex: 1}}>
-      <Text>username: {username}</Text>
+      <Text>Mission: {tweetId}</Text>
     </View>
   );
 };
 
-export default User;
+export default Mission;

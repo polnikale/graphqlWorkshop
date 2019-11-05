@@ -4,14 +4,12 @@ import { useNavigationParam } from 'react-navigation-hooks';
 
 interface Props {}
 
-const Retweets: React.FunctionComponent<Props> = () => {
-  const tweetId = useNavigationParam('id');
-
+const User: React.FunctionComponent<Props> = () => {
   return (
     <View style={{flex: 1}}>
-      <Text>Retweets: {tweetId}</Text>
+      <Text>Users!</Text>
     </View>
   );
 };
 
-export default Retweets;
+export default User;

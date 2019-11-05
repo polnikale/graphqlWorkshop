@@ -1,7 +1,7 @@
 import { createAppContainer, NavigationRouteConfigMap } from 'react-navigation';
-import Posts from '../screens/Posts';
-import Retweets from '../screens/Retweets';
-import User from '../screens/User';
+import Mission from '../screens/Mission';
+import Missions from '../screens/Missions';
+import Users from '../screens/Users';
 import {
   createStackNavigator,
   NavigationStackOptions,
@@ -12,13 +12,13 @@ const routes: NavigationRouteConfigMap<
   NavigationStackOptions,
   NavigationStackProp
 > = {
-  Posts,
-  Retweets,
-  User,
+  Missions,
+  Mission,
+  Users,
 };
 
 const AppNavigation = createStackNavigator(routes, {
-  initialRouteName: 'Posts',
+  initialRouteName: 'Missions',
 });
 
 const AppContainer = createAppContainer(AppNavigation);
