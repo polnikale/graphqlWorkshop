@@ -25,16 +25,16 @@ const Missions: React.FunctionComponent<Props> = () => {
   );
 };
 
-interface SinglePostProps {
-  text: string;
+interface SingleMissionProps {
+  name: string;
   description: string;
   website: string;
   twitter: string;
   id: string;
   onPressMission: (id: string) => void;
 }
-const SingleMission: React.FunctionComponent<SinglePostProps> = ({
-  text,
+const SingleMission: React.FunctionComponent<SingleMissionProps> = ({
+  name,
   description,
   website,
   twitter,
@@ -48,15 +48,18 @@ const SingleMission: React.FunctionComponent<SinglePostProps> = ({
     <TouchableOpacity
       onPress={onMissionPress}
       style={{
-        height: 200,
-        width: 200,
+        height: 300,
+        width: 300,
+        margin: 20,
         borderRadius: 5,
         backgroundColor: 'lightgrey',
       }}>
-      <Text>{text}</Text>
+      <Text>{name}</Text>
       <Text>{description}</Text>
       <Button onPress={() => Linking.openURL(website)} title={website} />
-      <Button onPress={() => Linking.openURL(twitter)} title={twitter} />
+      {twitter && (
+        <Button onPress={() => Linking.openURL(twitter)} title={twitter} />
+      )}
     </TouchableOpacity>
   );
 };
