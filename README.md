@@ -4,6 +4,7 @@ install dependencies: ```apollo-boost @apollo/react-hooks graphql```
 url: ```https://api.spacex.land/graphql```
 install graphql-codegen: ```yarn add -D @graphql-codegen/cli```
 install libraries for graphql-codegen: ```yarn add -D @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo @graphql-codegen/typescript-resolvers```
+add a few more ```yarn add @apollo/react-components @apollo/react-hoc``` libraries for codegen
 add ```codegen.yml``` to the root with the following content:
 ```
 overwrite: true
