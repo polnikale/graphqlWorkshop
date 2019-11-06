@@ -1,7 +1,7 @@
-import { useQuery } from '@apollo/react-hooks';
-import React, { useCallback } from 'react';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import React, { useCallback, useState } from 'react';
 import { useNavigation } from 'react-navigation-hooks';
-import { ALL_SEARCH } from '../store/queries/missions';
+import { ALL_SEARCH, VALUE_SEARCH } from '../store/queries/missions';
 import {
   Button,
   Linking,
@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  ScrollView,
+  TextInput,
 } from 'react-native';
 
 interface Props {}
@@ -25,9 +27,18 @@ interface SearchQuery {
     },
   ];
 }
+interface SearchVariables {
+  name: string;
+}
 
 const Missions: React.FunctionComponent<Props> = () => {
   const {navigate} = useNavigation();
+  const {data, loading: allSearchLoading} = useQuery<SearchQuery>(ALL_SEARCH);
+  const [
+    searchMissions,
+    {data: searchData, loading: searchLoading, called},
+  ] = useLazyQuery<SearchQuery, SearchVariables>(VALUE_SEARCH);
+  const [mission, setMission] = useState('');
   const onPressUser = useCallback(() => {
     navigate('Users');
   }, []);
@@ -37,28 +48,56 @@ const Missions: React.FunctionComponent<Props> = () => {
     },
     [navigate],
   );
-  const {data, loading: allSearchLoading, error} = useQuery<SearchQuery>(
-    ALL_SEARCH,
-  );
+  const onPressSearch = useCallback(() => {
+    searchMissions({
+      variables: {
+        name: mission,
+      },
+    });
+  }, [searchMissions, mission]);
   const missions = (data && data.missions) || [];
-  debugger;
+  const searchMissionsData = (searchData && searchData.missions) || [];
 
   return (
-    <View>
+    <ScrollView>
       <Text style={{fontSize: 30}}>Missions</Text>
+      <TextInput
+        value={mission}
+        onChangeText={setMission}
+        placeholder="Write down a mission!"
+      />
+      <Button title="Search" onPress={onPressSearch} />
+      {!called ? (
+        <Text>Not called</Text>
+      ) : searchLoading ? (
+        <Text>search loading...</Text>
+      ) : (
+        <>
+          <Text>Searched!!</Text>
+          <FlatList
+            data={searchMissionsData}
+            renderItem={({item}) => (
+              <SingleMission {...item} onPressMission={onPressMission} />
+            )}
+          />
+        </>
+      )}
       {allSearchLoading ? (
         <Text>All search loading...</Text>
       ) : (
-        <FlatList
-          data={missions}
-          renderItem={({item}) => (
-            <SingleMission {...item} onPressMission={onPressMission} />
-          )}
-        />
+        <>
+          <Text>Not search!</Text>
+          <FlatList
+            data={missions}
+            renderItem={({item}) => (
+              <SingleMission {...item} onPressMission={onPressMission} />
+            )}
+          />
+        </>
       )}
       <Button onPress={onPressUser} title="user" />
       <Button onPress={onPressMission} title="mission" />
-    </View>
+    </ScrollView>
   );
 };
 

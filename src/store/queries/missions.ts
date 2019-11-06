@@ -11,3 +11,15 @@ export const ALL_SEARCH = gql`
     }
   }
 `;
+
+export const VALUE_SEARCH = gql`
+  query ValueSearch($name: String!) {
+    missions(limit: 10, find: {name: $name}) {
+      id
+      name
+      description
+      twitter
+      website
+    }
+  }
+`;
