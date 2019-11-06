@@ -12,32 +12,21 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
+import {
+  useAllSearchLazyQuery,
+  useAllSearchQuery,
+  useValueSearchLazyQuery,
+} from '../generated/graphql';
 
 interface Props {}
 
-interface SearchQuery {
-  missions: [
-    {
-      id: string;
-      text: string;
-      name: string;
-      description: string;
-      website: string;
-      twitter: string;
-    },
-  ];
-}
-interface SearchVariables {
-  name: string;
-}
-
 const Missions: React.FunctionComponent<Props> = () => {
   const {navigate} = useNavigation();
-  const {data, loading: allSearchLoading} = useQuery<SearchQuery>(ALL_SEARCH);
+  const {data, loading: allSearchLoading} = useAllSearchQuery();
   const [
     searchMissions,
     {data: searchData, loading: searchLoading, called},
-  ] = useLazyQuery<SearchQuery, SearchVariables>(VALUE_SEARCH);
+  ] = useValueSearchLazyQuery();
   const [mission, setMission] = useState('');
   const onPressUser = useCallback(() => {
     navigate('Users');
@@ -102,23 +91,23 @@ const Missions: React.FunctionComponent<Props> = () => {
 };
 
 interface SinglePostProps {
-  name: string;
-  description: string;
-  website: string;
-  twitter: string;
-  id: string;
+  name?: string | null;
+  description?: string | null;
+  website?: string | null;
+  twitter?: string | null;
+  id?: string | null;
   onPressMission: (id: string) => void;
 }
 const SingleMission: React.FunctionComponent<SinglePostProps> = ({
-  name,
-  description,
+  name = '',
+  description = '',
   website = '',
   twitter = '',
-  id,
+  id = '',
   onPressMission,
 }) => {
   const onMissionPress = useCallback(() => {
-    onPressMission(id);
+    onPressMission(id || '');
   }, [onPressMission, id]);
   return (
     <TouchableOpacity
@@ -131,8 +120,10 @@ const SingleMission: React.FunctionComponent<SinglePostProps> = ({
         backgroundColor: 'lightgrey',
       }}>
       <Text>{name}</Text>
-      <Text>{description.substring(0, 200)}</Text>
-      <Button onPress={() => Linking.openURL(website)} title={website} />
+      {description && <Text>{description.substring(0, 200)}</Text>}
+      {website && (
+        <Button onPress={() => Linking.openURL(website)} title={website} />
+      )}
       {twitter && (
         <Button onPress={() => Linking.openURL(twitter)} title={twitter} />
       )}
