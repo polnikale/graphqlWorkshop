@@ -23,3 +23,18 @@ export const VALUE_SEARCH = gql`
     }
   }
 `;
+
+export const SINGLE_MISSION = gql`
+  query SingleMission($id: ID!) {
+    mission(id: $id) {
+      name
+      description
+      id
+      payloads {
+        orbit
+        manufacturer
+        nationality
+      }
+    }
+  }
+`;

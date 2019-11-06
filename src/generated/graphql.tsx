@@ -1350,6 +1350,23 @@ export type ValueSearchQuery = (
   )>>> }
 );
 
+export type SingleMissionQueryVariables = {
+  id: Scalars['ID']
+};
+
+
+export type SingleMissionQuery = (
+  { __typename?: 'Query' }
+  & { mission: Maybe<(
+    { __typename?: 'Mission' }
+    & Pick<Mission, 'name' | 'description' | 'id'>
+    & { payloads: Maybe<Array<Maybe<(
+      { __typename?: 'Payload' }
+      & Pick<Payload, 'orbit' | 'manufacturer' | 'nationality'>
+    )>>> }
+  )> }
+);
+
 
 export const AllSearchDocument = gql`
     query AllSearch {
@@ -1458,6 +1475,63 @@ export function useValueSearchLazyQuery(baseOptions?: ApolloReactHooks.LazyQuery
 export type ValueSearchQueryHookResult = ReturnType<typeof useValueSearchQuery>;
 export type ValueSearchLazyQueryHookResult = ReturnType<typeof useValueSearchLazyQuery>;
 export type ValueSearchQueryResult = ApolloReactCommon.QueryResult<ValueSearchQuery, ValueSearchQueryVariables>;
+export const SingleMissionDocument = gql`
+    query SingleMission($id: ID!) {
+  mission(id: $id) {
+    name
+    description
+    id
+    payloads {
+      orbit
+      manufacturer
+      nationality
+    }
+  }
+}
+    `;
+export type SingleMissionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SingleMissionQuery, SingleMissionQueryVariables>, 'query'> & ({ variables: SingleMissionQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const SingleMissionComponent = (props: SingleMissionComponentProps) => (
+      <ApolloReactComponents.Query<SingleMissionQuery, SingleMissionQueryVariables> query={SingleMissionDocument} {...props} />
+    );
+    
+export type SingleMissionProps<TChildProps = {}> = ApolloReactHoc.DataProps<SingleMissionQuery, SingleMissionQueryVariables> & TChildProps;
+export function withSingleMission<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SingleMissionQuery,
+  SingleMissionQueryVariables,
+  SingleMissionProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, SingleMissionQuery, SingleMissionQueryVariables, SingleMissionProps<TChildProps>>(SingleMissionDocument, {
+      alias: 'singleMission',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSingleMissionQuery__
+ *
+ * To run a query within a React component, call `useSingleMissionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSingleMissionQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSingleMissionQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSingleMissionQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SingleMissionQuery, SingleMissionQueryVariables>) {
+        return ApolloReactHooks.useQuery<SingleMissionQuery, SingleMissionQueryVariables>(SingleMissionDocument, baseOptions);
+      }
+export function useSingleMissionLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SingleMissionQuery, SingleMissionQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SingleMissionQuery, SingleMissionQueryVariables>(SingleMissionDocument, baseOptions);
+        }
+export type SingleMissionQueryHookResult = ReturnType<typeof useSingleMissionQuery>;
+export type SingleMissionLazyQueryHookResult = ReturnType<typeof useSingleMissionLazyQuery>;
+export type SingleMissionQueryResult = ApolloReactCommon.QueryResult<SingleMissionQuery, SingleMissionQueryVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;

@@ -1,15 +1,30 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { useNavigationParam } from 'react-navigation-hooks';
+import { useSingleMissionQuery } from '../generated/graphql';
 
 interface Props {}
 
 const Mission: React.FunctionComponent<Props> = () => {
-  const tweetId = useNavigationParam('id');
-
+  const id = useNavigationParam('id');
+  const {data, loading} = useSingleMissionQuery({variables: {id}});
+  const mission = data && data.mission;
+  debugger;
   return (
     <View style={{flex: 1}}>
-      <Text>Mission: {tweetId}</Text>
+      <Text>Missionn: {id}</Text>
+      {loading ? (
+        <Text>Loading..</Text>
+      ) : (
+        <>
+          <Text>{mission && mission.name}</Text>
+          <FlatList
+            data={mission ? mission.payloads.filter(payload => !!payload) : []}
+            key={2}
+            renderItem={({item}) => <Text>{item && item.nationality}</Text>}
+          />
+        </>
+      )}
     </View>
   );
 };

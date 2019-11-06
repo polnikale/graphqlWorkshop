@@ -33,7 +33,7 @@ const Missions: React.FunctionComponent<Props> = () => {
   }, []);
   const onPressMission = useCallback(
     id => {
-      navigate('Mission', {id: '12'});
+      navigate('Mission', {id});
     },
     [navigate],
   );
