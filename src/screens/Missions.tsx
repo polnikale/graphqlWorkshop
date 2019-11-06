@@ -1,8 +1,30 @@
+import { useQuery } from '@apollo/react-hooks';
 import React, { useCallback } from 'react';
-import { Button, Linking, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from 'react-navigation-hooks';
+import { ALL_SEARCH } from '../store/queries/missions';
+import {
+  Button,
+  Linking,
+  Text,
+  TouchableOpacity,
+  View,
+  FlatList,
+} from 'react-native';
 
 interface Props {}
+
+interface SearchQuery {
+  missions: [
+    {
+      id: string;
+      text: string;
+      name: string;
+      description: string;
+      website: string;
+      twitter: string;
+    },
+  ];
+}
 
 const Missions: React.FunctionComponent<Props> = () => {
   const {navigate} = useNavigation();
@@ -15,10 +37,25 @@ const Missions: React.FunctionComponent<Props> = () => {
     },
     [navigate],
   );
+  const {data, loading: allSearchLoading, error} = useQuery<SearchQuery>(
+    ALL_SEARCH,
+  );
+  const missions = (data && data.missions) || [];
+  debugger;
 
   return (
     <View>
       <Text style={{fontSize: 30}}>Missions</Text>
+      {allSearchLoading ? (
+        <Text>All search loading...</Text>
+      ) : (
+        <FlatList
+          data={missions}
+          renderItem={({item}) => (
+            <SingleMission {...item} onPressMission={onPressMission} />
+          )}
+        />
+      )}
       <Button onPress={onPressUser} title="user" />
       <Button onPress={onPressMission} title="mission" />
     </View>
@@ -26,7 +63,7 @@ const Missions: React.FunctionComponent<Props> = () => {
 };
 
 interface SinglePostProps {
-  text: string;
+  name: string;
   description: string;
   website: string;
   twitter: string;
@@ -34,10 +71,10 @@ interface SinglePostProps {
   onPressMission: (id: string) => void;
 }
 const SingleMission: React.FunctionComponent<SinglePostProps> = ({
-  text,
+  name,
   description,
-  website,
-  twitter,
+  website = '',
+  twitter = '',
   id,
   onPressMission,
 }) => {
@@ -48,15 +85,18 @@ const SingleMission: React.FunctionComponent<SinglePostProps> = ({
     <TouchableOpacity
       onPress={onMissionPress}
       style={{
-        height: 200,
-        width: 200,
+        height: 300,
+        width: 300,
+        margin: 20,
         borderRadius: 5,
         backgroundColor: 'lightgrey',
       }}>
-      <Text>{text}</Text>
-      <Text>{description}</Text>
+      <Text>{name}</Text>
+      <Text>{description.substring(0, 200)}</Text>
       <Button onPress={() => Linking.openURL(website)} title={website} />
-      <Button onPress={() => Linking.openURL(twitter)} title={twitter} />
+      {twitter && (
+        <Button onPress={() => Linking.openURL(twitter)} title={twitter} />
+      )}
     </TouchableOpacity>
   );
 };
