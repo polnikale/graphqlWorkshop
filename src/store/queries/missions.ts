@@ -27,6 +27,7 @@ export const VALUE_SEARCH = gql`
 export const SINGLE_MISSION = gql`
   query SingleMission($id: ID!) {
     mission(id: $id) {
+      isFavorite @client
       name
       description
       id

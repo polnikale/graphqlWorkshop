@@ -1,6 +1,7 @@
 overwrite: true
 schema:
   - 'https://api.spacex.land/graphql/'
+  - './client-schema.graphql'
 documents: 'src/store/queries/*.{tsx,ts}'
 generates:
   src/generated/graphql.tsx:

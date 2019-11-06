@@ -443,6 +443,7 @@ export type Mission = {
   website?: Maybe<Scalars['String']>,
   wikipedia?: Maybe<Scalars['String']>,
   payloads?: Maybe<Array<Maybe<Payload>>>,
+  isFavorite?: Maybe<Scalars['Boolean']>,
 };
 
 export type MissionResult = {
@@ -1359,7 +1360,7 @@ export type SingleMissionQuery = (
   { __typename?: 'Query' }
   & { mission: Maybe<(
     { __typename?: 'Mission' }
-    & Pick<Mission, 'name' | 'description' | 'id'>
+    & Pick<Mission, 'isFavorite' | 'name' | 'description' | 'id'>
     & { payloads: Maybe<Array<Maybe<(
       { __typename?: 'Payload' }
       & Pick<Payload, 'orbit' | 'manufacturer' | 'nationality'>
@@ -1478,6 +1479,7 @@ export type ValueSearchQueryResult = ApolloReactCommon.QueryResult<ValueSearchQu
 export const SingleMissionDocument = gql`
     query SingleMission($id: ID!) {
   mission(id: $id) {
+    isFavorite @client
     name
     description
     id
@@ -2089,6 +2091,7 @@ export type MissionResolvers<ContextType = any, ParentType extends ResolversPare
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   payloads?: Resolver<Maybe<Array<Maybe<ResolversTypes['Payload']>>>, ParentType, ContextType>,
+  isFavorite?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
 };
 
 export type MissionResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['MissionResult'] = ResolversParentTypes['MissionResult']> = {

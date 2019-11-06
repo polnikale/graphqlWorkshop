@@ -18,6 +18,7 @@ const Mission: React.FunctionComponent<Props> = () => {
       ) : (
         <>
           <Text>{mission && mission.name}</Text>
+          {mission && mission.isFavorite && <Text>Favorite!</Text>}
           <FlatList
             data={mission ? mission.payloads.filter(payload => !!payload) : []}
             key={2}
