@@ -50,6 +50,7 @@ const Missions: React.FunctionComponent<Props> = () => {
   return (
     <ScrollView>
       <Text style={{fontSize: 30}}>Missions</Text>
+      <Button onPress={onPressUser} title="user" />
       <TextInput
         value={mission}
         onChangeText={setMission}
@@ -84,7 +85,6 @@ const Missions: React.FunctionComponent<Props> = () => {
           />
         </>
       )}
-      <Button onPress={onPressUser} title="user" />
       <Button onPress={onPressMission} title="mission" />
     </ScrollView>
   );

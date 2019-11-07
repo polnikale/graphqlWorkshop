@@ -1368,6 +1368,33 @@ export type SingleMissionQuery = (
   )> }
 );
 
+export type UsersQueryVariables = {};
+
+
+export type UsersQuery = (
+  { __typename?: 'Query' }
+  & { users: Array<(
+    { __typename?: 'users' }
+    & Pick<Users, 'name'>
+  )> }
+);
+
+export type AddUserMutationVariables = {
+  name: Scalars['String']
+};
+
+
+export type AddUserMutation = (
+  { __typename?: 'Mutation' }
+  & { insert_users: Maybe<(
+    { __typename?: 'users_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'users' }
+      & Pick<Users, 'name'>
+    )> }
+  )> }
+);
+
 
 export const AllSearchDocument = gql`
     query AllSearch {
@@ -1534,6 +1561,106 @@ export function useSingleMissionLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type SingleMissionQueryHookResult = ReturnType<typeof useSingleMissionQuery>;
 export type SingleMissionLazyQueryHookResult = ReturnType<typeof useSingleMissionLazyQuery>;
 export type SingleMissionQueryResult = ApolloReactCommon.QueryResult<SingleMissionQuery, SingleMissionQueryVariables>;
+export const UsersDocument = gql`
+    query Users {
+  users {
+    name
+  }
+}
+    `;
+export type UsersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UsersQuery, UsersQueryVariables>, 'query'>;
+
+    export const UsersComponent = (props: UsersComponentProps) => (
+      <ApolloReactComponents.Query<UsersQuery, UsersQueryVariables> query={UsersDocument} {...props} />
+    );
+    
+export type UsersProps<TChildProps = {}> = ApolloReactHoc.DataProps<UsersQuery, UsersQueryVariables> & TChildProps;
+export function withUsers<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UsersQuery,
+  UsersQueryVariables,
+  UsersProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, UsersQuery, UsersQueryVariables, UsersProps<TChildProps>>(UsersDocument, {
+      alias: 'users',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUsersQuery__
+ *
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUsersQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+        return ApolloReactHooks.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
+      }
+export function useUsersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
+        }
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = ApolloReactCommon.QueryResult<UsersQuery, UsersQueryVariables>;
+export const AddUserDocument = gql`
+    mutation AddUser($name: String!) {
+  insert_users(objects: [{name: $name}]) {
+    returning {
+      name
+    }
+  }
+}
+    `;
+export type AddUserMutationFn = ApolloReactCommon.MutationFunction<AddUserMutation, AddUserMutationVariables>;
+export type AddUserComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<AddUserMutation, AddUserMutationVariables>, 'mutation'>;
+
+    export const AddUserComponent = (props: AddUserComponentProps) => (
+      <ApolloReactComponents.Mutation<AddUserMutation, AddUserMutationVariables> mutation={AddUserDocument} {...props} />
+    );
+    
+export type AddUserProps<TChildProps = {}> = ApolloReactHoc.MutateProps<AddUserMutation, AddUserMutationVariables> & TChildProps;
+export function withAddUser<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  AddUserMutation,
+  AddUserMutationVariables,
+  AddUserProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, AddUserMutation, AddUserMutationVariables, AddUserProps<TChildProps>>(AddUserDocument, {
+      alias: 'addUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useAddUserMutation__
+ *
+ * To run a mutation, you first call `useAddUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addUserMutation, { data, loading, error }] = useAddUserMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useAddUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddUserMutation, AddUserMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddUserMutation, AddUserMutationVariables>(AddUserDocument, baseOptions);
+      }
+export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
+export type AddUserMutationResult = ApolloReactCommon.MutationResult<AddUserMutation>;
+export type AddUserMutationOptions = ApolloReactCommon.BaseMutationOptions<AddUserMutation, AddUserMutationVariables>;
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;

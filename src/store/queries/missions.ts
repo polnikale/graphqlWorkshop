@@ -1,27 +1,32 @@
 import { gql } from 'apollo-boost';
 
+const MissionFragment = gql`
+  fragment MissionDataFragment on Mission {
+    id
+    name
+    description
+    twitter
+    website
+  }
+`;
+
 export const ALL_SEARCH = gql`
   query AllSearch {
     missions(limit: 10) {
-      id
-      name
-      description
-      twitter
-      website
+      ...MissionDataFragment
     }
   }
+  ${MissionFragment}
 `;
 
 export const VALUE_SEARCH = gql`
   query ValueSearch($name: String!) {
     missions(limit: 10, find: {name: $name}) {
-      id
+      # ...MissionDataFragment
       name
-      description
-      twitter
-      website
     }
   }
+  ${MissionFragment}
 `;
 
 export const SINGLE_MISSION = gql`
