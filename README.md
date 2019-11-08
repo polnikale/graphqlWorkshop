@@ -5,11 +5,13 @@ url: ```https://api.spacex.land/graphql```<br />
 install graphql-codegen: ```yarn add -D @graphql-codegen/cli```<br />
 install libraries for graphql-codegen: ```yarn add -D @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo @graphql-codegen/typescript-resolvers```<br />
 add a few more ```yarn add @apollo/react-components @apollo/react-hoc``` libraries for codegen<br />
+add ```client-schema.graphql``` to the root with empty content<br/>
 add ```codegen.yml``` to the root with the following content:
 ```
 overwrite: true
 schema:
   - 'https://api.spacex.land/graphql/'
+  - './client-schema.graphql'
 documents: 'src/store/queries/*.{tsx,ts}'
 generates:
   src/generated/graphql.tsx:
@@ -56,6 +58,23 @@ export const VALUE_MISSION_QUERY = gql`
 `;
 ```
 <br /><br />
+Fetch single mission:
+```
+export const SINGLE_MISSION_QUERY = gql`
+  query SingleMission($id: ID!) {
+    mission(id: $id) {
+      name
+      description
+      id
+      payloads {
+        orbit
+        manufacturer
+        nationality
+      }
+    }
+  }
+`;
+```
 Fetch users:
 ```
 export const USERS_QUERY = gql`
@@ -100,4 +119,27 @@ useAddUserMutation({
       });
     },
   });
+```
+<br /><br /><br /><br /><br /><br />
+```Local state:```
+Add client value to SingleMission:
+```
+      isFavorite @client
+```
+Update schema: (in ```/client-schema.graphql```):
+```
+extend type Mission {
+  isFavorite: Boolean
+}
+```
+Add resolver: (```store/resolvers/index.ts```):
+```
+export const resolvers: IResolvers = {
+  Mission: {
+    isFavorite: (parent, _, cache, info) => {
+      return parent.name ? parent.name.includes('Iridium') : false;
+    },
+  }
+};
+
 ```
