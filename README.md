@@ -29,8 +29,8 @@ Add ```    "codegen": "graphql-codegen --config codegen.yml"``` to scripts in ``
 ```Queries```<br/>
 Fetch all missions:
 ```
-export const ALL_MISSION_SEARCH = gql`
-  query AllMissionSearch {
+export const ALL_MISSIONS_QUERY = gql`
+  query AllMissions {
     missions(limit: 10) {
       id
       name
@@ -43,8 +43,8 @@ export const ALL_MISSION_SEARCH = gql`
 ```
 Fetch mission by value:
 ```
-export const VALUE_MISSION_SEARCH = gql`
-  query ValueMissionSearch($name: String!) {
+export const VALUE_MISSION_QUERY = gql`
+  query ValueMission($name: String!) {
     missions(limit: 10, find: {name: $name}) {
       id
       name
@@ -65,4 +65,39 @@ export const USERS_QUERY = gql`
     }
   }
 `;
+```
+<br /><br /><br /><br />
+```Mutations```:<br/>
+Add user:
+```
+export const ADD_USER_MUTATION = gql`
+  mutation AddUser($name: String!) {
+    insert_users(objects: [{name: $name}]) {
+      returning {
+        name
+      }
+    }
+  }
+`;
+```
+Update data after successful update:
+```
+useAddUserMutation({
+    update(cache, {data: newUsersData}) {
+      const newUsers =
+        (newUsersData &&
+          newUsersData.insert_users &&
+          newUsersData.insert_users.returning &&
+          newUsersData.insert_users.returning) ||
+        [];
+      const oldUsersData = cache.readQuery<UsersQuery>({
+        query: USERS_QUERY,
+      });
+      const oldUsers = (oldUsersData && oldUsersData.users) || [];
+      cache.writeQuery({
+        query: USERS_QUERY,
+        data: {users: [...oldUsers, ...newUsers]},
+      });
+    },
+  });
 ```
