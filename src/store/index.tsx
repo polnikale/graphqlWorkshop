@@ -1,5 +1,5 @@
 import ApolloClient from 'apollo-boost';
-import { Resolvers } from '../generated/graphql';
+import { IResolvers } from '../generated/graphql';
 import { resolvers } from './resolvers';
 
 const client = new ApolloClient({

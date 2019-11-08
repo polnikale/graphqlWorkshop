@@ -8,6 +8,7 @@ generates:
     config:
       noNamespaces: true
       withHooks: true
+      useIndexSignature: true
     plugins:
       - 'typescript'
       - 'typescript-operations'

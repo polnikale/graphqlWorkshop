@@ -759,6 +759,14 @@
     "@graphql-toolkit/schema-merging" "0.6.6"
     tslib "1.10.0"
 
+"@graphql-codegen/introspection@^1.8.3":
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-1.8.3.tgz#dc95defa2c83c56b8ca28dc75f84b14ca787ab71"
+  integrity sha512-DJk7NwMYHs8QX1TWWm0WqmJfKc9kPaaUSUlwyPITxUpveC0xbTZ36vWCe+pUinApxLK8ECoKIwA+K8Bhgs/PMg==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "1.8.3"
+    tslib "1.10.0"
+
 "@graphql-codegen/plugin-helpers@1.8.3":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-1.8.3.tgz#3235fe1752d622943a4ba3325c5a8d23e79bc399"

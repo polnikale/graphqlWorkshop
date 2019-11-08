@@ -16,6 +16,8 @@ import {
   useAllSearchLazyQuery,
   useAllSearchQuery,
   useValueSearchLazyQuery,
+  useSkippedAuthQuery,
+  useSetSkippedAuthMutation,
 } from '../generated/graphql';
 
 interface Props {}
@@ -23,6 +25,8 @@ interface Props {}
 const Missions: React.FunctionComponent<Props> = () => {
   const {navigate} = useNavigation();
   const {data, loading: allSearchLoading} = useAllSearchQuery();
+  const {data: skippedAuth} = useSkippedAuthQuery();
+  const [setSkippedAuth] = useSetSkippedAuthMutation();
   const [
     searchMissions,
     {data: searchData, loading: searchLoading, called},
@@ -50,6 +54,13 @@ const Missions: React.FunctionComponent<Props> = () => {
   return (
     <ScrollView>
       <Text style={{fontSize: 30}}>Missions</Text>
+      <Text>
+        {skippedAuth && skippedAuth.skippedAuth ? 'Skipped' : 'Not skipped'}
+      </Text>
+      <Button
+        title="Skip"
+        onPress={() => setSkippedAuth({variables: {skipped: true}})}
+      />
       <Button onPress={onPressUser} title="user" />
       <TextInput
         value={mission}

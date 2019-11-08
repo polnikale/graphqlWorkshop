@@ -1,3 +1,11 @@
 extend type Mission {
   isFavorite: Boolean
 }
+
+type Query {
+  skippedAuth: Boolean
+}
+
+type Mutation {
+  setSkippedAuth(skipped: Boolean!): Boolean!
+}

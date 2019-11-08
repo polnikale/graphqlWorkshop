@@ -467,6 +467,7 @@ export type Mutation = {
   insert_users?: Maybe<Users_Mutation_Response>,
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>,
+  setSkippedAuth: Scalars['Boolean'],
 };
 
 
@@ -484,6 +485,11 @@ export type MutationInsert_UsersArgs = {
 export type MutationUpdate_UsersArgs = {
   _set?: Maybe<Users_Set_Input>,
   where: Users_Bool_Exp
+};
+
+
+export type MutationSetSkippedAuthArgs = {
+  skipped: Scalars['Boolean']
 };
 
 
@@ -606,6 +612,7 @@ export type Query = {
   ships?: Maybe<Array<Maybe<Ship>>>,
   shipsResult?: Maybe<ShipsResult>,
   ship?: Maybe<Ship>,
+  skippedAuth?: Maybe<Scalars['Boolean']>,
 };
 
 
@@ -1327,6 +1334,29 @@ export type Volume = {
   cubic_meters?: Maybe<Scalars['Int']>,
 };
 
+export type SkippedAuthQueryVariables = {};
+
+
+export type SkippedAuthQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'skippedAuth'>
+);
+
+export type SetSkippedAuthMutationVariables = {
+  skipped: Scalars['Boolean']
+};
+
+
+export type SetSkippedAuthMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'setSkippedAuth'>
+);
+
+export type MissionDataFragmentFragment = (
+  { __typename?: 'Mission' }
+  & Pick<Mission, 'id' | 'name' | 'description' | 'twitter' | 'website'>
+);
+
 export type AllSearchQueryVariables = {};
 
 
@@ -1334,7 +1364,7 @@ export type AllSearchQuery = (
   { __typename?: 'Query' }
   & { missions: Maybe<Array<Maybe<(
     { __typename?: 'Mission' }
-    & Pick<Mission, 'id' | 'name' | 'description' | 'twitter' | 'website'>
+    & MissionDataFragmentFragment
   )>>> }
 );
 
@@ -1347,7 +1377,7 @@ export type ValueSearchQuery = (
   { __typename?: 'Query' }
   & { missions: Maybe<Array<Maybe<(
     { __typename?: 'Mission' }
-    & Pick<Mission, 'id' | 'name' | 'description' | 'twitter' | 'website'>
+    & Pick<Mission, 'name'>
   )>>> }
 );
 
@@ -1395,18 +1425,116 @@ export type AddUserMutation = (
   )> }
 );
 
+export const MissionDataFragmentFragmentDoc = gql`
+    fragment MissionDataFragment on Mission {
+  id
+  name
+  description
+  twitter
+  website
+}
+    `;
+export const SkippedAuthDocument = gql`
+    query SkippedAuth {
+  skippedAuth @client
+}
+    `;
+export type SkippedAuthComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<SkippedAuthQuery, SkippedAuthQueryVariables>, 'query'>;
 
+    export const SkippedAuthComponent = (props: SkippedAuthComponentProps) => (
+      <ApolloReactComponents.Query<SkippedAuthQuery, SkippedAuthQueryVariables> query={SkippedAuthDocument} {...props} />
+    );
+    
+export type SkippedAuthProps<TChildProps = {}> = ApolloReactHoc.DataProps<SkippedAuthQuery, SkippedAuthQueryVariables> & TChildProps;
+export function withSkippedAuth<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SkippedAuthQuery,
+  SkippedAuthQueryVariables,
+  SkippedAuthProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, SkippedAuthQuery, SkippedAuthQueryVariables, SkippedAuthProps<TChildProps>>(SkippedAuthDocument, {
+      alias: 'skippedAuth',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSkippedAuthQuery__
+ *
+ * To run a query within a React component, call `useSkippedAuthQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSkippedAuthQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSkippedAuthQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSkippedAuthQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SkippedAuthQuery, SkippedAuthQueryVariables>) {
+        return ApolloReactHooks.useQuery<SkippedAuthQuery, SkippedAuthQueryVariables>(SkippedAuthDocument, baseOptions);
+      }
+export function useSkippedAuthLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SkippedAuthQuery, SkippedAuthQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SkippedAuthQuery, SkippedAuthQueryVariables>(SkippedAuthDocument, baseOptions);
+        }
+export type SkippedAuthQueryHookResult = ReturnType<typeof useSkippedAuthQuery>;
+export type SkippedAuthLazyQueryHookResult = ReturnType<typeof useSkippedAuthLazyQuery>;
+export type SkippedAuthQueryResult = ApolloReactCommon.QueryResult<SkippedAuthQuery, SkippedAuthQueryVariables>;
+export const SetSkippedAuthDocument = gql`
+    mutation SetSkippedAuth($skipped: Boolean!) {
+  setSkippedAuth(skipped: $skipped) @client
+}
+    `;
+export type SetSkippedAuthMutationFn = ApolloReactCommon.MutationFunction<SetSkippedAuthMutation, SetSkippedAuthMutationVariables>;
+export type SetSkippedAuthComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<SetSkippedAuthMutation, SetSkippedAuthMutationVariables>, 'mutation'>;
+
+    export const SetSkippedAuthComponent = (props: SetSkippedAuthComponentProps) => (
+      <ApolloReactComponents.Mutation<SetSkippedAuthMutation, SetSkippedAuthMutationVariables> mutation={SetSkippedAuthDocument} {...props} />
+    );
+    
+export type SetSkippedAuthProps<TChildProps = {}> = ApolloReactHoc.MutateProps<SetSkippedAuthMutation, SetSkippedAuthMutationVariables> & TChildProps;
+export function withSetSkippedAuth<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  SetSkippedAuthMutation,
+  SetSkippedAuthMutationVariables,
+  SetSkippedAuthProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, SetSkippedAuthMutation, SetSkippedAuthMutationVariables, SetSkippedAuthProps<TChildProps>>(SetSkippedAuthDocument, {
+      alias: 'setSkippedAuth',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useSetSkippedAuthMutation__
+ *
+ * To run a mutation, you first call `useSetSkippedAuthMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetSkippedAuthMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setSkippedAuthMutation, { data, loading, error }] = useSetSkippedAuthMutation({
+ *   variables: {
+ *      skipped: // value for 'skipped'
+ *   },
+ * });
+ */
+export function useSetSkippedAuthMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SetSkippedAuthMutation, SetSkippedAuthMutationVariables>) {
+        return ApolloReactHooks.useMutation<SetSkippedAuthMutation, SetSkippedAuthMutationVariables>(SetSkippedAuthDocument, baseOptions);
+      }
+export type SetSkippedAuthMutationHookResult = ReturnType<typeof useSetSkippedAuthMutation>;
+export type SetSkippedAuthMutationResult = ApolloReactCommon.MutationResult<SetSkippedAuthMutation>;
+export type SetSkippedAuthMutationOptions = ApolloReactCommon.BaseMutationOptions<SetSkippedAuthMutation, SetSkippedAuthMutationVariables>;
 export const AllSearchDocument = gql`
     query AllSearch {
   missions(limit: 10) {
-    id
-    name
-    description
-    twitter
-    website
+    ...MissionDataFragment
   }
 }
-    `;
+    ${MissionDataFragmentFragmentDoc}`;
 export type AllSearchComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllSearchQuery, AllSearchQueryVariables>, 'query'>;
 
     export const AllSearchComponent = (props: AllSearchComponentProps) => (
@@ -1452,11 +1580,7 @@ export type AllSearchQueryResult = ApolloReactCommon.QueryResult<AllSearchQuery,
 export const ValueSearchDocument = gql`
     query ValueSearch($name: String!) {
   missions(limit: 10, find: {name: $name}) {
-    id
     name
-    description
-    twitter
-    website
   }
 }
     `;
@@ -1661,7 +1785,8 @@ export function useAddUserMutation(baseOptions?: ApolloReactHooks.MutationHookOp
 export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
 export type AddUserMutationResult = ApolloReactCommon.MutationResult<AddUserMutation>;
 export type AddUserMutationOptions = ApolloReactCommon.BaseMutationOptions<AddUserMutation, AddUserMutationVariables>;
-
+export type WithIndex<TObject> = TObject & Record<string, any>;
+export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -1731,7 +1856,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = {
+export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
   users_select_column: Users_Select_Column,
   Int: ResolverTypeWrapper<Scalars['Int']>,
@@ -1827,10 +1952,10 @@ export type ResolversTypes = {
   users_min_order_by: Users_Min_Order_By,
   users_arr_rel_insert_input: Users_Arr_Rel_Insert_Input,
   users_obj_rel_insert_input: Users_Obj_Rel_Insert_Input,
-};
+}>;
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = {
+export type ResolversParentTypes = ResolversObject<{
   Query: {},
   users_select_column: Users_Select_Column,
   Int: Scalars['Int'],
@@ -1926,15 +2051,15 @@ export type ResolversParentTypes = {
   users_min_order_by: Users_Min_Order_By,
   users_arr_rel_insert_input: Users_Arr_Rel_Insert_Input,
   users_obj_rel_insert_input: Users_Obj_Rel_Insert_Input,
-};
+}>;
 
-export type AddressResolvers<ContextType = any, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = {
+export type AddressResolvers<ContextType = any, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = ResolversObject<{
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type CapsuleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Capsule'] = ResolversParentTypes['Capsule']> = {
+export type CapsuleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Capsule'] = ResolversParentTypes['Capsule']> = ResolversObject<{
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>,
   landings?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   missions?: Resolver<Maybe<Array<Maybe<ResolversTypes['CapsuleMission']>>>, ParentType, ContextType>,
@@ -1943,14 +2068,14 @@ export type CapsuleResolvers<ContextType = any, ParentType extends ResolversPare
   status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   dragon?: Resolver<Maybe<ResolversTypes['Dragon']>, ParentType, ContextType>,
-};
+}>;
 
-export type CapsuleMissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CapsuleMission'] = ResolversParentTypes['CapsuleMission']> = {
+export type CapsuleMissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CapsuleMission'] = ResolversParentTypes['CapsuleMission']> = ResolversObject<{
   flight?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type CoreResolvers<ContextType = any, ParentType extends ResolversParentTypes['Core'] = ResolversParentTypes['Core']> = {
+export type CoreResolvers<ContextType = any, ParentType extends ResolversParentTypes['Core'] = ResolversParentTypes['Core']> = ResolversObject<{
   asds_attempts?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   asds_landings?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   block?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
@@ -1962,23 +2087,23 @@ export type CoreResolvers<ContextType = any, ParentType extends ResolversParentT
   rtls_landings?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   water_landing?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-};
+}>;
 
-export type CoreMissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CoreMission'] = ResolversParentTypes['CoreMission']> = {
+export type CoreMissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CoreMission'] = ResolversParentTypes['CoreMission']> = ResolversObject<{
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   flight?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-};
+}>;
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date'
 }
 
-export type DistanceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Distance'] = ResolversParentTypes['Distance']> = {
+export type DistanceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Distance'] = ResolversParentTypes['Distance']> = ResolversObject<{
   feet?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   meters?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
-};
+}>;
 
-export type DragonResolvers<ContextType = any, ParentType extends ResolversParentTypes['Dragon'] = ResolversParentTypes['Dragon']> = {
+export type DragonResolvers<ContextType = any, ParentType extends ResolversParentTypes['Dragon'] = ResolversParentTypes['Dragon']> = ResolversObject<{
   active?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   crew_capacity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -2001,49 +2126,49 @@ export type DragonResolvers<ContextType = any, ParentType extends ResolversParen
   trunk?: Resolver<Maybe<ResolversTypes['DragonTrunk']>, ParentType, ContextType>,
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type DragonHeatShieldResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonHeatShield'] = ResolversParentTypes['DragonHeatShield']> = {
+export type DragonHeatShieldResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonHeatShield'] = ResolversParentTypes['DragonHeatShield']> = ResolversObject<{
   dev_partner?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   material?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   size_meters?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   temp_degrees?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-};
+}>;
 
-export type DragonPressurizedCapsuleResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonPressurizedCapsule'] = ResolversParentTypes['DragonPressurizedCapsule']> = {
+export type DragonPressurizedCapsuleResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonPressurizedCapsule'] = ResolversParentTypes['DragonPressurizedCapsule']> = ResolversObject<{
   payload_volume?: Resolver<Maybe<ResolversTypes['Volume']>, ParentType, ContextType>,
-};
+}>;
 
-export type DragonThrustResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonThrust'] = ResolversParentTypes['DragonThrust']> = {
+export type DragonThrustResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonThrust'] = ResolversParentTypes['DragonThrust']> = ResolversObject<{
   amount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   fuel_1?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   fuel_2?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   pods?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   thrust?: Resolver<Maybe<ResolversTypes['Force']>, ParentType, ContextType>,
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type DragonTrunkResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonTrunk'] = ResolversParentTypes['DragonTrunk']> = {
+export type DragonTrunkResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonTrunk'] = ResolversParentTypes['DragonTrunk']> = ResolversObject<{
   cargo?: Resolver<Maybe<ResolversTypes['DragonTrunkCargo']>, ParentType, ContextType>,
   trunk_volume?: Resolver<Maybe<ResolversTypes['Volume']>, ParentType, ContextType>,
-};
+}>;
 
-export type DragonTrunkCargoResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonTrunkCargo'] = ResolversParentTypes['DragonTrunkCargo']> = {
+export type DragonTrunkCargoResolvers<ContextType = any, ParentType extends ResolversParentTypes['DragonTrunkCargo'] = ResolversParentTypes['DragonTrunkCargo']> = ResolversObject<{
   solar_array?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   unpressurized_cargo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-};
+}>;
 
-export type ForceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Force'] = ResolversParentTypes['Force']> = {
+export type ForceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Force'] = ResolversParentTypes['Force']> = ResolversObject<{
   kN?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   lbf?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
-};
+}>;
 
-export type HistoriesResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['HistoriesResult'] = ResolversParentTypes['HistoriesResult']> = {
+export type HistoriesResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['HistoriesResult'] = ResolversParentTypes['HistoriesResult']> = ResolversObject<{
   result?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType>,
   data?: Resolver<Maybe<Array<Maybe<ResolversTypes['History']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type HistoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['History'] = ResolversParentTypes['History']> = {
+export type HistoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['History'] = ResolversParentTypes['History']> = ResolversObject<{
   details?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   event_date_unix?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>,
   event_date_utc?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>,
@@ -2051,9 +2176,9 @@ export type HistoryResolvers<ContextType = any, ParentType extends ResolversPare
   links?: Resolver<Maybe<ResolversTypes['Link']>, ParentType, ContextType>,
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   flight?: Resolver<Maybe<ResolversTypes['Launch']>, ParentType, ContextType>,
-};
+}>;
 
-export type InfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Info'] = ResolversParentTypes['Info']> = {
+export type InfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Info'] = ResolversParentTypes['Info']> = ResolversObject<{
   ceo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   coo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   cto_propulsion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -2069,16 +2194,16 @@ export type InfoResolvers<ContextType = any, ParentType extends ResolversParentT
   test_sites?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   valuation?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   vehicles?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-};
+}>;
 
-export type InfoLinksResolvers<ContextType = any, ParentType extends ResolversParentTypes['InfoLinks'] = ResolversParentTypes['InfoLinks']> = {
+export type InfoLinksResolvers<ContextType = any, ParentType extends ResolversParentTypes['InfoLinks'] = ResolversParentTypes['InfoLinks']> = ResolversObject<{
   elon_twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   flickr?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type LandpadResolvers<ContextType = any, ParentType extends ResolversParentTypes['Landpad'] = ResolversParentTypes['Landpad']> = {
+export type LandpadResolvers<ContextType = any, ParentType extends ResolversParentTypes['Landpad'] = ResolversParentTypes['Landpad']> = ResolversObject<{
   attempted_landings?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   details?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   full_name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -2088,9 +2213,9 @@ export type LandpadResolvers<ContextType = any, ParentType extends ResolversPare
   status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   successful_landings?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchResolvers<ContextType = any, ParentType extends ResolversParentTypes['Launch'] = ResolversParentTypes['Launch']> = {
+export type LaunchResolvers<ContextType = any, ParentType extends ResolversParentTypes['Launch'] = ResolversParentTypes['Launch']> = ResolversObject<{
   details?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>,
   is_tentative?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
@@ -2110,14 +2235,14 @@ export type LaunchResolvers<ContextType = any, ParentType extends ResolversParen
   tentative_max_precision?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   upcoming?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   ships?: Resolver<Maybe<Array<Maybe<ResolversTypes['Ship']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchesPastResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchesPastResult'] = ResolversParentTypes['LaunchesPastResult']> = {
+export type LaunchesPastResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchesPastResult'] = ResolversParentTypes['LaunchesPastResult']> = ResolversObject<{
   result?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType>,
   data?: Resolver<Maybe<Array<Maybe<ResolversTypes['Launch']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchLinksResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchLinks'] = ResolversParentTypes['LaunchLinks']> = {
+export type LaunchLinksResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchLinks'] = ResolversParentTypes['LaunchLinks']> = ResolversObject<{
   article_link?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   flickr_images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
   mission_patch_small?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -2129,9 +2254,9 @@ export type LaunchLinksResolvers<ContextType = any, ParentType extends Resolvers
   reddit_recovery?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   video_link?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchpadResolvers<ContextType = any, ParentType extends ResolversParentTypes['Launchpad'] = ResolversParentTypes['Launchpad']> = {
+export type LaunchpadResolvers<ContextType = any, ParentType extends ResolversParentTypes['Launchpad'] = ResolversParentTypes['Launchpad']> = ResolversObject<{
   attempted_launches?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   details?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>,
@@ -2141,29 +2266,29 @@ export type LaunchpadResolvers<ContextType = any, ParentType extends ResolversPa
   successful_launches?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   vehicles_launched?: Resolver<Maybe<Array<Maybe<ResolversTypes['Rocket']>>>, ParentType, ContextType>,
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchRocketResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocket'] = ResolversParentTypes['LaunchRocket']> = {
+export type LaunchRocketResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocket'] = ResolversParentTypes['LaunchRocket']> = ResolversObject<{
   fairings?: Resolver<Maybe<ResolversTypes['LaunchRocketFairings']>, ParentType, ContextType>,
   first_stage?: Resolver<Maybe<ResolversTypes['LaunchRocketFirstStage']>, ParentType, ContextType>,
   rocket_name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   rocket_type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   rocket?: Resolver<Maybe<ResolversTypes['Rocket']>, ParentType, ContextType>,
   second_stage?: Resolver<Maybe<ResolversTypes['LaunchRocketSecondStage']>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchRocketFairingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocketFairings'] = ResolversParentTypes['LaunchRocketFairings']> = {
+export type LaunchRocketFairingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocketFairings'] = ResolversParentTypes['LaunchRocketFairings']> = ResolversObject<{
   recovered?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   recovery_attempt?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   reused?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   ship?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchRocketFirstStageResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocketFirstStage'] = ResolversParentTypes['LaunchRocketFirstStage']> = {
+export type LaunchRocketFirstStageResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocketFirstStage'] = ResolversParentTypes['LaunchRocketFirstStage']> = ResolversObject<{
   cores?: Resolver<Maybe<Array<Maybe<ResolversTypes['LaunchRocketFirstStageCore']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchRocketFirstStageCoreResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocketFirstStageCore'] = ResolversParentTypes['LaunchRocketFirstStageCore']> = {
+export type LaunchRocketFirstStageCoreResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocketFirstStageCore'] = ResolversParentTypes['LaunchRocketFirstStageCore']> = ResolversObject<{
   block?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   core?: Resolver<Maybe<ResolversTypes['Core']>, ParentType, ContextType>,
   flight?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
@@ -2174,42 +2299,42 @@ export type LaunchRocketFirstStageCoreResolvers<ContextType = any, ParentType ex
   landing_vehicle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   legs?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   reused?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchRocketSecondStageResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocketSecondStage'] = ResolversParentTypes['LaunchRocketSecondStage']> = {
+export type LaunchRocketSecondStageResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchRocketSecondStage'] = ResolversParentTypes['LaunchRocketSecondStage']> = ResolversObject<{
   block?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   payloads?: Resolver<Maybe<Array<Maybe<ResolversTypes['Payload']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchSiteResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchSite'] = ResolversParentTypes['LaunchSite']> = {
+export type LaunchSiteResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchSite'] = ResolversParentTypes['LaunchSite']> = ResolversObject<{
   site_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   site_name_long?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   site_name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type LaunchTelemetryResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchTelemetry'] = ResolversParentTypes['LaunchTelemetry']> = {
+export type LaunchTelemetryResolvers<ContextType = any, ParentType extends ResolversParentTypes['LaunchTelemetry'] = ResolversParentTypes['LaunchTelemetry']> = ResolversObject<{
   flight_club?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type LinkResolvers<ContextType = any, ParentType extends ResolversParentTypes['Link'] = ResolversParentTypes['Link']> = {
+export type LinkResolvers<ContextType = any, ParentType extends ResolversParentTypes['Link'] = ResolversParentTypes['Link']> = ResolversObject<{
   article?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   reddit?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {
+export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = ResolversObject<{
   latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   region?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type MassResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mass'] = ResolversParentTypes['Mass']> = {
+export type MassResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mass'] = ResolversParentTypes['Mass']> = ResolversObject<{
   kg?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   lb?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-};
+}>;
 
-export type MissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mission'] = ResolversParentTypes['Mission']> = {
+export type MissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mission'] = ResolversParentTypes['Mission']> = ResolversObject<{
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>,
   manufacturers?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
@@ -2219,24 +2344,25 @@ export type MissionResolvers<ContextType = any, ParentType extends ResolversPare
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   payloads?: Resolver<Maybe<Array<Maybe<ResolversTypes['Payload']>>>, ParentType, ContextType>,
   isFavorite?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-};
+}>;
 
-export type MissionResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['MissionResult'] = ResolversParentTypes['MissionResult']> = {
+export type MissionResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['MissionResult'] = ResolversParentTypes['MissionResult']> = ResolversObject<{
   result?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType>,
   data?: Resolver<Maybe<Array<Maybe<ResolversTypes['Mission']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   delete_users?: Resolver<Maybe<ResolversTypes['users_mutation_response']>, ParentType, ContextType, RequireFields<MutationDelete_UsersArgs, 'where'>>,
   insert_users?: Resolver<Maybe<ResolversTypes['users_mutation_response']>, ParentType, ContextType, RequireFields<MutationInsert_UsersArgs, 'objects'>>,
   update_users?: Resolver<Maybe<ResolversTypes['users_mutation_response']>, ParentType, ContextType, RequireFields<MutationUpdate_UsersArgs, 'where'>>,
-};
+  setSkippedAuth?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetSkippedAuthArgs, 'skipped'>>,
+}>;
 
 export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ObjectID'], any> {
   name: 'ObjectID'
 }
 
-export type PayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['Payload'] = ResolversParentTypes['Payload']> = {
+export type PayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['Payload'] = ResolversParentTypes['Payload']> = ResolversObject<{
   customers?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>,
   manufacturer?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -2248,9 +2374,9 @@ export type PayloadResolvers<ContextType = any, ParentType extends ResolversPare
   payload_mass_lbs?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   payload_type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   reused?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
-};
+}>;
 
-export type PayloadOrbitParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['PayloadOrbitParams'] = ResolversParentTypes['PayloadOrbitParams']> = {
+export type PayloadOrbitParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['PayloadOrbitParams'] = ResolversParentTypes['PayloadOrbitParams']> = ResolversObject<{
   apoapsis_km?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   arg_of_pericenter?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   eccentricity?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
@@ -2266,9 +2392,9 @@ export type PayloadOrbitParamsResolvers<ContextType = any, ParentType extends Re
   reference_system?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   regime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   semi_major_axis_km?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
-};
+}>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   users?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType, QueryUsersArgs>,
   users_aggregate?: Resolver<ResolversTypes['users_aggregate'], ParentType, ContextType, QueryUsers_AggregateArgs>,
   users_by_pk?: Resolver<Maybe<ResolversTypes['users']>, ParentType, ContextType, RequireFields<QueryUsers_By_PkArgs, 'id'>>,
@@ -2309,13 +2435,14 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   ships?: Resolver<Maybe<Array<Maybe<ResolversTypes['Ship']>>>, ParentType, ContextType, QueryShipsArgs>,
   shipsResult?: Resolver<Maybe<ResolversTypes['ShipsResult']>, ParentType, ContextType, QueryShipsResultArgs>,
   ship?: Resolver<Maybe<ResolversTypes['Ship']>, ParentType, ContextType, RequireFields<QueryShipArgs, 'id'>>,
-};
+  skippedAuth?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
+}>;
 
-export type ResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['Result'] = ResolversParentTypes['Result']> = {
+export type ResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['Result'] = ResolversParentTypes['Result']> = ResolversObject<{
   totalCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-};
+}>;
 
-export type RoadsterResolvers<ContextType = any, ParentType extends ResolversParentTypes['Roadster'] = ResolversParentTypes['Roadster']> = {
+export type RoadsterResolvers<ContextType = any, ParentType extends ResolversParentTypes['Roadster'] = ResolversParentTypes['Roadster']> = ResolversObject<{
   apoapsis_au?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   details?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   earth_distance_km?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
@@ -2340,9 +2467,9 @@ export type RoadsterResolvers<ContextType = any, ParentType extends ResolversPar
   speed_kph?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   speed_mph?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketResolvers<ContextType = any, ParentType extends ResolversParentTypes['Rocket'] = ResolversParentTypes['Rocket']> = {
+export type RocketResolvers<ContextType = any, ParentType extends ResolversParentTypes['Rocket'] = ResolversParentTypes['Rocket']> = ResolversObject<{
   active?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   boosters?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   company?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -2364,9 +2491,9 @@ export type RocketResolvers<ContextType = any, ParentType extends ResolversParen
   success_rate_pct?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   wikipedia?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketEnginesResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketEngines'] = ResolversParentTypes['RocketEngines']> = {
+export type RocketEnginesResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketEngines'] = ResolversParentTypes['RocketEngines']> = ResolversObject<{
   number?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   version?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -2377,53 +2504,53 @@ export type RocketEnginesResolvers<ContextType = any, ParentType extends Resolve
   thrust_sea_level?: Resolver<Maybe<ResolversTypes['Force']>, ParentType, ContextType>,
   thrust_vacuum?: Resolver<Maybe<ResolversTypes['Force']>, ParentType, ContextType>,
   thrust_to_weight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketFirstStageResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketFirstStage'] = ResolversParentTypes['RocketFirstStage']> = {
+export type RocketFirstStageResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketFirstStage'] = ResolversParentTypes['RocketFirstStage']> = ResolversObject<{
   burn_time_sec?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   engines?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   fuel_amount_tons?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   reusable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   thrust_sea_level?: Resolver<Maybe<ResolversTypes['Force']>, ParentType, ContextType>,
   thrust_vacuum?: Resolver<Maybe<ResolversTypes['Force']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketLandingLegsResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketLandingLegs'] = ResolversParentTypes['RocketLandingLegs']> = {
+export type RocketLandingLegsResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketLandingLegs'] = ResolversParentTypes['RocketLandingLegs']> = ResolversObject<{
   number?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   material?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketPayloadWeightResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketPayloadWeight'] = ResolversParentTypes['RocketPayloadWeight']> = {
+export type RocketPayloadWeightResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketPayloadWeight'] = ResolversParentTypes['RocketPayloadWeight']> = ResolversObject<{
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   kg?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   lb?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketSecondStageResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketSecondStage'] = ResolversParentTypes['RocketSecondStage']> = {
+export type RocketSecondStageResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketSecondStage'] = ResolversParentTypes['RocketSecondStage']> = ResolversObject<{
   burn_time_sec?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   engines?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   fuel_amount_tons?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   payloads?: Resolver<Maybe<ResolversTypes['RocketSecondStagePayloads']>, ParentType, ContextType>,
   thrust?: Resolver<Maybe<ResolversTypes['Force']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketSecondStagePayloadCompositeFairingResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketSecondStagePayloadCompositeFairing'] = ResolversParentTypes['RocketSecondStagePayloadCompositeFairing']> = {
+export type RocketSecondStagePayloadCompositeFairingResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketSecondStagePayloadCompositeFairing'] = ResolversParentTypes['RocketSecondStagePayloadCompositeFairing']> = ResolversObject<{
   height?: Resolver<Maybe<ResolversTypes['Distance']>, ParentType, ContextType>,
   diameter?: Resolver<Maybe<ResolversTypes['Distance']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketSecondStagePayloadsResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketSecondStagePayloads'] = ResolversParentTypes['RocketSecondStagePayloads']> = {
+export type RocketSecondStagePayloadsResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketSecondStagePayloads'] = ResolversParentTypes['RocketSecondStagePayloads']> = ResolversObject<{
   option_1?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   composite_fairing?: Resolver<Maybe<ResolversTypes['RocketSecondStagePayloadCompositeFairing']>, ParentType, ContextType>,
-};
+}>;
 
-export type RocketsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketsResult'] = ResolversParentTypes['RocketsResult']> = {
+export type RocketsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RocketsResult'] = ResolversParentTypes['RocketsResult']> = ResolversObject<{
   result?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType>,
   data?: Resolver<Maybe<Array<Maybe<ResolversTypes['Rocket']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type ShipResolvers<ContextType = any, ParentType extends ResolversParentTypes['Ship'] = ResolversParentTypes['Ship']> = {
+export type ShipResolvers<ContextType = any, ParentType extends ResolversParentTypes['Ship'] = ResolversParentTypes['Ship']> = ResolversObject<{
   abs?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   active?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   attempted_landings?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
@@ -2447,81 +2574,81 @@ export type ShipResolvers<ContextType = any, ParentType extends ResolversParentT
   weight_kg?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   weight_lbs?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   year_built?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-};
+}>;
 
-export type ShipLocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShipLocation'] = ResolversParentTypes['ShipLocation']> = {
+export type ShipLocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShipLocation'] = ResolversParentTypes['ShipLocation']> = ResolversObject<{
   latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
   longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>,
-};
+}>;
 
-export type ShipMissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShipMission'] = ResolversParentTypes['ShipMission']> = {
+export type ShipMissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShipMission'] = ResolversParentTypes['ShipMission']> = ResolversObject<{
   flight?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type ShipsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShipsResult'] = ResolversParentTypes['ShipsResult']> = {
+export type ShipsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['ShipsResult'] = ResolversParentTypes['ShipsResult']> = ResolversObject<{
   result?: Resolver<Maybe<ResolversTypes['Result']>, ParentType, ContextType>,
   data?: Resolver<Maybe<Array<Maybe<ResolversTypes['Ship']>>>, ParentType, ContextType>,
-};
+}>;
 
-export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   users?: SubscriptionResolver<Array<ResolversTypes['users']>, "users", ParentType, ContextType, SubscriptionUsersArgs>,
   users_aggregate?: SubscriptionResolver<ResolversTypes['users_aggregate'], "users_aggregate", ParentType, ContextType, SubscriptionUsers_AggregateArgs>,
   users_by_pk?: SubscriptionResolver<Maybe<ResolversTypes['users']>, "users_by_pk", ParentType, ContextType, RequireFields<SubscriptionUsers_By_PkArgs, 'id'>>,
-};
+}>;
 
 export interface TimestamptzScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['timestamptz'], any> {
   name: 'timestamptz'
 }
 
-export type UsersResolvers<ContextType = any, ParentType extends ResolversParentTypes['users'] = ResolversParentTypes['users']> = {
+export type UsersResolvers<ContextType = any, ParentType extends ResolversParentTypes['users'] = ResolversParentTypes['users']> = ResolversObject<{
   id?: Resolver<ResolversTypes['uuid'], ParentType, ContextType>,
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   rocket?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   timestamp?: Resolver<ResolversTypes['timestamptz'], ParentType, ContextType>,
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type Users_AggregateResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_aggregate'] = ResolversParentTypes['users_aggregate']> = {
+export type Users_AggregateResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_aggregate'] = ResolversParentTypes['users_aggregate']> = ResolversObject<{
   aggregate?: Resolver<Maybe<ResolversTypes['users_aggregate_fields']>, ParentType, ContextType>,
   nodes?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType>,
-};
+}>;
 
-export type Users_Aggregate_FieldsResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_aggregate_fields'] = ResolversParentTypes['users_aggregate_fields']> = {
+export type Users_Aggregate_FieldsResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_aggregate_fields'] = ResolversParentTypes['users_aggregate_fields']> = ResolversObject<{
   count?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, Users_Aggregate_FieldsCountArgs>,
   max?: Resolver<Maybe<ResolversTypes['users_max_fields']>, ParentType, ContextType>,
   min?: Resolver<Maybe<ResolversTypes['users_min_fields']>, ParentType, ContextType>,
-};
+}>;
 
-export type Users_Max_FieldsResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_max_fields'] = ResolversParentTypes['users_max_fields']> = {
+export type Users_Max_FieldsResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_max_fields'] = ResolversParentTypes['users_max_fields']> = ResolversObject<{
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   rocket?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   timestamp?: Resolver<Maybe<ResolversTypes['timestamptz']>, ParentType, ContextType>,
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type Users_Min_FieldsResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_min_fields'] = ResolversParentTypes['users_min_fields']> = {
+export type Users_Min_FieldsResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_min_fields'] = ResolversParentTypes['users_min_fields']> = ResolversObject<{
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   rocket?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   timestamp?: Resolver<Maybe<ResolversTypes['timestamptz']>, ParentType, ContextType>,
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-};
+}>;
 
-export type Users_Mutation_ResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_mutation_response'] = ResolversParentTypes['users_mutation_response']> = {
+export type Users_Mutation_ResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['users_mutation_response'] = ResolversParentTypes['users_mutation_response']> = ResolversObject<{
   affected_rows?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   returning?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType>,
-};
+}>;
 
 export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['uuid'], any> {
   name: 'uuid'
 }
 
-export type VolumeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Volume'] = ResolversParentTypes['Volume']> = {
+export type VolumeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Volume'] = ResolversParentTypes['Volume']> = ResolversObject<{
   cubic_feet?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   cubic_meters?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-};
+}>;
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = any> = ResolversObject<{
   Address?: AddressResolvers<ContextType>,
   Capsule?: CapsuleResolvers<ContextType>,
   CapsuleMission?: CapsuleMissionResolvers<ContextType>,
@@ -2587,7 +2714,7 @@ export type Resolvers<ContextType = any> = {
   users_mutation_response?: Users_Mutation_ResponseResolvers<ContextType>,
   uuid?: GraphQLScalarType,
   Volume?: VolumeResolvers<ContextType>,
-};
+}>;
 
 
 /**
