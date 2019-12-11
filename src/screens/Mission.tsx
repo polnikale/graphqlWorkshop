@@ -1,15 +1,15 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { useNavigationParam } from 'react-navigation-hooks';
+import {Text, View} from 'react-native';
+import {useNavigationParam} from 'react-navigation-hooks';
 
 interface Props {}
 
 const Mission: React.FunctionComponent<Props> = () => {
-  const tweetId = useNavigationParam('id');
+  const id = useNavigationParam('id');
 
   return (
     <View style={{flex: 1}}>
-      <Text>Mission: {tweetId}</Text>
+      <Text>Mission: {id}</Text>
     </View>
   );
 };
