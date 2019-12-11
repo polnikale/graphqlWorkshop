@@ -2,6 +2,36 @@
 install dependencies: ```apollo-boost @apollo/react-hooks graphql```
 
 url: ```https://api.spacex.land/graphql```<br />
+```Setup```:
+```
+store/index.ts
+import ApolloClient from 'apollo-boost';
+import { resolvers } from './resolvers';
+
+const client = new ApolloClient({
+  uri: 'https://api.spacex.land/graphql',
+  resolvers,
+});
+
+export default client;
+```
+```
+App.tsx
+import { ApolloProvider } from '@apollo/react-hooks';
+import React from 'react';
+import Root from './src/Root';
+import client from './src/store';
+
+const App = () => {
+  return (
+    <ApolloProvider client={client}>
+      <Root />
+    </ApolloProvider>
+  );
+};
+
+export default App;
+```
 install graphql-codegen: ```yarn add -D @graphql-codegen/cli```<br />
 install libraries for graphql-codegen: ```yarn add -D @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo @graphql-codegen/typescript-resolvers```<br />
 add a few more ```yarn add @apollo/react-components @apollo/react-hoc``` libraries for codegen<br />
