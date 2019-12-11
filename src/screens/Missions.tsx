@@ -1,20 +1,15 @@
-import React, { useCallback } from 'react';
-import { Button, Linking, Text, TouchableOpacity, View } from 'react-native';
-import { useNavigation } from 'react-navigation-hooks';
+import React, {useCallback} from 'react';
+import {Button, Linking, Text, TouchableOpacity, View} from 'react-native';
+import {useNavigation} from 'react-navigation-hooks';
 
-interface Props {}
-
-const Missions: React.FunctionComponent<Props> = () => {
+const Missions: React.FunctionComponent = () => {
   const {navigate} = useNavigation();
   const onPressUser = useCallback(() => {
     navigate('Users');
   }, []);
-  const onPressMission = useCallback(
-    id => {
-      navigate('Mission', {id: '12'});
-    },
-    [navigate],
-  );
+  const onPressMission = useCallback(id => {
+    navigate('Mission', {id: '12'});
+  }, []);
 
   return (
     <View>

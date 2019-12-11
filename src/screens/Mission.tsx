@@ -2,9 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {useNavigationParam} from 'react-navigation-hooks';
 
-interface Props {}
-
-const Mission: React.FunctionComponent<Props> = () => {
+const Mission: React.FunctionComponent = () => {
   const id = useNavigationParam('id');
 
   return (

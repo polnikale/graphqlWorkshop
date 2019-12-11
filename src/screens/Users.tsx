@@ -1,10 +1,7 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { useNavigationParam } from 'react-navigation-hooks';
+import {Text, View} from 'react-native';
 
-interface Props {}
-
-const User: React.FunctionComponent<Props> = () => {
+const User: React.FunctionComponent = () => {
   return (
     <View style={{flex: 1}}>
       <Text>Users!</Text>
